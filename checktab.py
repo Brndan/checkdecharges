@@ -16,11 +16,11 @@ if args.input:
 else:
     print("Impossible de trouver la source")
 
-sys.exit()
 
-with open('perm.csv',newline='') as csvfile:
+
+with open(args.input,newline='') as csvfile:
     fichier = csv.reader(csvfile,delimiter=',',quotechar='"')
     #for jour in {'lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'}:
     for row in fichier:
-        for column in range(5,9):
+        for column in range(0,4):
             print(row[column])
