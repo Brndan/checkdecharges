@@ -10,17 +10,16 @@ parser.add_argument('input',
 
 args = parser.parse_args()
 
-if args.input:
-    source_folder = Path(args.input)
-    print("Je cherche dans : " + args.input)
-else:
-    print("Impossible de trouver la source")
-
-
-
 with open(args.input,newline='') as csvfile:
-    fichier = csv.reader(csvfile,delimiter=',',quotechar='"')
-    #for jour in {'lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'}:
-    for row in fichier:
-        for column in range(0,4):
-            print(row[column])
+    fichier = csv.DictReader(csvfile,delimiter=',',quotechar='"')
+    prevRow = None
+    line = 0
+    rows = list(fichier)
+    for row in rows:
+        line += 1
+        if row['Nom'] == rows[line-2]['Nom'] and row['Prénom'] == rows[line-2]['Prénom'] and row['RNE'] != rows[line-2]['RNE']:
+            print(f"Erreur de RNE à la ligne {line} pour {row['Prénom']} {row['Nom']}")
+        if row['Prénom'] == rows[line-2]['Prénom'] and row['RNE'] == rows[line-2]['RNE'] and row['Nom'] != rows[line-2]['Nom']:
+            print(f"Erreur de NOM à la ligne {line} pour {row['Prénom']} {row['Nom']}")
+        if row['Nom'] == rows[line-2]['Nom'] and row['RNE'] == rows[line-2]['RNE'] and row['Prénom'] != rows[line-2]['Prénom']:
+            print(f"Erreur de PRÉNOM à la ligne {line} pour {row['Prénom']} {row['Nom']}")
